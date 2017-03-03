@@ -46,16 +46,8 @@ class AdvertController extends Controller
 
     public function viewAction($id)
     {   
-        $advert = array(
-            'title' => 'Recherche développpeur Symfony2',
-            'id' => $id,
-            'author' => 'Alexandre',
-            'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-            'date' => new \Datetime()
-        );
-
         return $this->render('XHGPlateformBundle:Advert:view.html.twig', array(
-                    'advert' => $advert,
+                    'advert' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->find($id),
         ));
     }
 

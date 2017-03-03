@@ -38,7 +38,7 @@ class Advert
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="XHG\PlateformBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     private $author;
 
@@ -56,7 +56,12 @@ class Advert
      */
     private $published = true;
 
-
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="Image")
+     */
+    private $image;
+    
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -72,99 +77,4 @@ class Advert
         return $this->id;
     }
 
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return Advert
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Advert
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Advert
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set author
-     *
-     * @param \XHGPlateformBundle\Entity\User $author
-     *
-     * @return Advert
-     */
-    public function setAuthor(\XHGPlateformBundle\Entity\User $author = null)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return \XHGPlateformBundle\Entity\User
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
 }

@@ -38,7 +38,7 @@ class Advert
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="XHG\PlateformBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     private $author;
 
@@ -56,7 +56,12 @@ class Advert
      */
     private $published = true;
 
-
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="Image")
+     */
+    private $image;
+    
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -71,6 +76,7 @@ class Advert
     {
         return $this->id;
     }
+
 
     /**
      * Set date
@@ -145,30 +151,6 @@ class Advert
     }
 
     /**
-     * Set author
-     *
-     * @param \XHGPlateformBundle\Entity\User $author
-     *
-     * @return Advert
-     */
-    public function setAuthor(\XHGPlateformBundle\Entity\User $author = null)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return \XHGPlateformBundle\Entity\User
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
      * Set published
      *
      * @param boolean $published
@@ -190,5 +172,53 @@ class Advert
     public function getPublished()
     {
         return $this->published;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \XHG\PlateformBundle\Entity\User $author
+     *
+     * @return Advert
+     */
+    public function setAuthor(\XHG\PlateformBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \XHG\PlateformBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \XHG\PlateformBundle\Entity\Image $image
+     *
+     * @return Advert
+     */
+    public function setImage(\XHG\PlateformBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \XHG\PlateformBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }
