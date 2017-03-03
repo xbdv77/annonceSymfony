@@ -38,7 +38,7 @@ class Advert
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="XHG\PlateformBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="XHGPlateformBundle\Entity\User")
      */
     private $author;
 
@@ -136,28 +136,5 @@ class Advert
     {
         return $this->content;
     }
-
-    /**
-     * Set author
-     *
-     * @param \XHGPlateformBundle\Entity\User $author
-     *
-     * @return Advert
-     */
-    public function setAuthor(\XHGPlateformBundle\Entity\User $author = null)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return \XHGPlateformBundle\Entity\User
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
 }
+

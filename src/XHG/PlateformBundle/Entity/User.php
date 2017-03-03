@@ -22,6 +22,12 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     *
+     * @var XHG\PlateformBundle\Entity\Advert[]
+     * @ORM\OneToMany(targetEntity="XHG\PlateformBundle\Entity\Advert", mappedBy="author") 
+     */
+    private $adverts;
 
     /**
      * Get id
@@ -31,5 +37,39 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add advert
+     *
+     * @param \XHG\PlateformBundle\Entity\Advert $advert
+     *
+     * @return User
+     */
+    public function addAdvert(\XHG\PlateformBundle\Entity\Advert $advert)
+    {
+        $this->adverts[] = $advert;
+
+        return $this;
+    }
+
+    /**
+     * Remove advert
+     *
+     * @param \XHG\PlateformBundle\Entity\Advert $advert
+     */
+    public function removeAdvert(\XHG\PlateformBundle\Entity\Advert $advert)
+    {
+        $this->adverts->removeElement($advert);
+    }
+
+    /**
+     * Get adverts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAdverts()
+    {
+        return $this->adverts;
     }
 }
