@@ -38,4 +38,38 @@ class User extends BaseUser
     {
         return $this->id;
     }
+
+    /**
+     * Add advert
+     *
+     * @param \XHG\PlateformBundle\Entity\Advert $advert
+     *
+     * @return User
+     */
+    public function addAdvert(\XHG\PlateformBundle\Entity\Advert $advert)
+    {
+        $this->adverts[] = $advert;
+
+        return $this;
+    }
+
+    /**
+     * Remove advert
+     *
+     * @param \XHG\PlateformBundle\Entity\Advert $advert
+     */
+    public function removeAdvert(\XHG\PlateformBundle\Entity\Advert $advert)
+    {
+        $this->adverts->removeElement($advert);
+    }
+
+    /**
+     * Get adverts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAdverts()
+    {
+        return $this->adverts;
+    }
 }
