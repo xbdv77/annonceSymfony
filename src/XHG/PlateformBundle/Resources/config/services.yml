@@ -1,0 +1,7 @@
+services:
+    xhg_plateform.antispam:
+        class: XHG\PlateformBundle\Antispam\XHGAntispam
+        arguments:
+            - "@mailer"
+            - "%locale%"
+            - 50

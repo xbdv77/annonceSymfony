@@ -1,0 +1,33 @@
+xhg_plateform_home:
+    path:      /{page}
+    defaults: 
+        _controller: XHGPlateformBundle:Advert:index
+        page: 1
+    requirements:
+        page: \d*
+
+xhg_plateform_view:
+    path:      /advert/{id}
+    defaults: 
+        _controller: XHGPlateformBundle:Advert:view
+    requirements:
+        id: \d+
+
+xhg_plateform_add:
+    path:      /add
+    defaults:
+        _controller: XHGPlateformBundle:Advert:add
+
+xhg_plateform_edit:
+    path:      /edit/{id}
+    defaults:
+        _controller: XHGPlateformBundle:Advert:edit
+    requirements:
+        id: \d+
+
+xhg_plateform_delete:
+    path:      /delete/{id}
+    defaults:
+        _controller: XHGPlateformBundle:Advert:delete
+    requirements:
+        id: \d+

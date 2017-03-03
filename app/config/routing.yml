@@ -1,0 +1,10 @@
+xhg_plateform:
+    resource: "@XHGPlateformBundle/Resources/config/routing.yml"
+    prefix:   /plateform
+
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /plateform
+        permanent: true

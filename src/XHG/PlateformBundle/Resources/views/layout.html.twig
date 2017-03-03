@@ -1,0 +1,28 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+    Annonces - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {# On définit un sous-titre commun à toutes les pages du bundle, par exemple #}
+    <h1>Annonces</h1>
+    {% for flash_message in app.session.flashBag.get('notice') %}
+        <div class="flash-notice">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    {# On définit un nouveau bloc, que les vues du bundle pourront remplir #}
+    {% block xhgplateform_body %}
+    {% endblock %}
+{% endblock %}
+
+{% block dump_debug %}
+    {% if app.environment == 'dev' %}
+        {{ dump() }}
+    {% endif %}
+{% endblock %}           
+
