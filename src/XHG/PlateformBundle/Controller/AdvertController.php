@@ -5,6 +5,8 @@ namespace XHG\PlateformBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use XHG\PlateformBundle\Entity\Advert;
+use XHG\PlateformBundle\Entity\Image;
 
 class AdvertController extends Controller
 {
@@ -38,16 +40,20 @@ class AdvertController extends Controller
                 'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
                 'date' => new \Datetime())
         );
-        
+
         return $this->render('XHGPlateformBundle:Advert:index.html.twig', array(
-            'listAdverts' => $listAdverts,
+                    'listAdverts' => $listAdverts,
         ));
     }
 
     public function viewAction($id)
-    {   
+    {
+        $advert = $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->find($id);
+        if (null === $advert) {
+            throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
+        }
         return $this->render('XHGPlateformBundle:Advert:view.html.twig', array(
-                    'advert' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->find($id),
+                    'advert' => $advert,
         ));
     }
 
@@ -55,7 +61,7 @@ class AdvertController extends Controller
     {
         // recupération du service antispam
         $antispam = $this->get('xhg_plateform.antispam');
-        
+
 // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
 // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
         if ($request->isMethod('POST')) {
@@ -65,9 +71,32 @@ class AdvertController extends Controller
             return $this->redirectToRoute('xhg_plateform_view', array('id' => 5));
         }
 
+        // On récupère l'EntityManager
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->find('\XHG\CoreBundle\Entity\User', 1);
+// Création de l'entité Advert
+        $advert = new Advert();
+        $advert->setTitle('Recherche développeur Symfony.');
+        $advert->setAuthor($user);
+        $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
+
+        // Création de l'entité Image
+        $image = new Image();
+        $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
+        $image->setAlt('Job de rêve');
+
+        // On lie l'image à l'annonce
+        $advert->setImage($image);
+        // Étape 1 : On « persiste » l'entité
+        $em->persist($advert);
+        // Étape 1 bis : si on n'avait pas défini le cascade={"persist"},
+        // on devrait persister à la main l'entité $image
+        $em->persist($image);
+        // Étape 2 : On déclenche l'enregistrement
+        $em->flush();
 // Si on n'est pas en POST, alors on affiche le formulaire
         return $this->render('XHGPlateformBundle:Advert:add.html.twig', array(
-            'antispam' => $antispam,
+                    'antispam' => $antispam,
         ));
     }
 
@@ -90,18 +119,30 @@ class AdvertController extends Controller
         );
 
         return $this->render('XHGPlateformBundle:Advert:edit.html.twig', array(
-            'advert' => $advert,
+                    'advert' => $advert,
         ));
     }
 
     public function deleteAction($id, Request $request)
     {
-// Ici, on récupérera l'annonce correspondant à $id
-// Ici, on gérera la suppression de l'annonce en question
-        $this->addFlash('notice', 'l\'annonce a bien été supprimé');
+        $em = $this->getDoctrine()->getManager();
+        $advert = $em->getRepository('XHGPlateformBundle:Advert')->find($id);
+
+        if (null === $advert) {
+            throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
+        }
+
+        // On boucle sur les catégories de l'annonce pour les supprimer
+        foreach ($advert->getCategories() as $category) {
+            $advert->removeCategory($category);
+        }
         
+        $em->detach($advert);
+        $em->flush();
+        $this->addFlash('notice', 'l\'annonce a bien été supprimé');
+
         return $this->forward('XHGPlateformBundle:Advert:index', array(
-            'page' => 1,
+                    'page' => 1,
         ));
     }
 
@@ -115,7 +156,7 @@ class AdvertController extends Controller
             array('id' => 9, 'title' => 'Offre de stage webdesigner')
         );
 
-        
+
         return $this->render('XHGPlateformBundle:Advert:menu.html.twig', array(
                     // Tout l'intérêt est ici : le contrôleur passe
                     // les variables nécessaires au template !

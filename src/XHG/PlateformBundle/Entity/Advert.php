@@ -3,6 +3,7 @@
 namespace XHG\PlateformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Advert
@@ -63,9 +64,20 @@ class Advert
      */
     private $image;
     
+    /**
+     * @ORM\ManyToMany(targetEntity="XHG\PlateformBundle\Entity\Category", cascade={"persist"})
+     */
+    private $categories;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="XHG\PlateformBundle\Entity\Application", mappedBy="advert")
+     */
+    private $applications;
+    
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->categories = new ArrayCollection();
     }
     
     /**
@@ -221,5 +233,74 @@ class Advert
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \XHG\PlateformBundle\Entity\Category $category
+     *
+     * @return Advert
+     */
+    public function addCategory(\XHG\PlateformBundle\Entity\Category $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \XHG\PlateformBundle\Entity\Category $category
+     */
+    public function removeCategory(\XHG\PlateformBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Add application
+     *
+     * @param \XHG\PlateformBundle\Entity\Application $application
+     *
+     * @return Advert
+     */
+    public function addApplication(\XHG\PlateformBundle\Entity\Application $application)
+    {
+        $this->applications[] = $application;
+
+        $application->setAdvert($this);
+        return $this;
+    }
+
+    /**
+     * Remove application
+     *
+     * @param \XHG\PlateformBundle\Entity\Application $application
+     */
+    public function removeApplication(\XHG\PlateformBundle\Entity\Application $application)
+    {
+        $this->applications->removeElement($application);
+    }
+
+    /**
+     * Get applications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }
