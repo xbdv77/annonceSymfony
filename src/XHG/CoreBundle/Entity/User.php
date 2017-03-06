@@ -1,6 +1,6 @@
 <?php
 
-namespace XHG\PlateformBundle\Entity;
+namespace XHG\CoreBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * User
  *
  * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="XHG\PlateformBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="XHG\CoreBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {

@@ -1,13 +1,10 @@
+xhg_core:
+    resource: "@XHGCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
 xhg_plateform:
     resource: "@XHGPlateformBundle/Resources/config/routing.yml"
     prefix:   /plateform
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-    
-root:
-    path: /
-    defaults:
-        _controller: FrameworkBundle:Redirect:urlRedirect
-        path: /plateform
-        permanent: true

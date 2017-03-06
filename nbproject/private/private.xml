@@ -3,21 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Resources/views/Advert/menu.html.twig</file>
-            <file>file:/C:/var/www/symfony/web/app.php</file>
-            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Resources/views/Advert/view.html.twig</file>
             <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Controller/AdvertController.php</file>
-            <file>file:/C:/var/www/symfony/app/config/routing.yml</file>
-            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Antispam/XHGAntispam.php</file>
-            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Resources/views/Advert/index.html.twig</file>
-            <file>file:/C:/var/www/symfony/app/AppKernel.php</file>
-            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Resources/config/services.yml</file>
-            <file>file:/C:/var/www/symfony/var/logs/dev.log</file>
-            <file>file:/C:/var/www/symfony/app/autoload.php</file>
-            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Resources/views/Advert/edit.html.twig</file>
-            <file>file:/C:/var/www/symfony/app/Resources/views/layout.html.twig</file>
-            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Resources/config/routing.yml</file>
-            <file>file:/C:/var/www/symfony/app/config/services.yml</file>
+            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Entity/User.php</file>
+            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Entity/Advert.php</file>
+            <file>file:/C:/var/www/symfony/src/XHG/PlateformBundle/Entity/Image.php</file>
         </group>
     </open-files>
 </project-private>

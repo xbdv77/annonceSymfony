@@ -1,0 +1,3 @@
+xhg_core_homepage:
+    path:     /
+    defaults: { _controller: XHGCoreBundle:Default:index }

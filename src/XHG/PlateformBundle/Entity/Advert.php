@@ -38,7 +38,8 @@ class Advert
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="XHG\CoreBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $author;
 
@@ -177,11 +178,11 @@ class Advert
     /**
      * Set author
      *
-     * @param \XHG\PlateformBundle\Entity\User $author
+     * @param \XHG\CoreBundle\Entity\User $author
      *
      * @return Advert
      */
-    public function setAuthor(\XHG\PlateformBundle\Entity\User $author = null)
+    public function setAuthor(\XHG\CoreBundle\Entity\User $author = null)
     {
         $this->author = $author;
 
@@ -191,7 +192,7 @@ class Advert
     /**
      * Get author
      *
-     * @return \XHG\PlateformBundle\Entity\User
+     * @return \XHG\CoreBundle\Entity\User
      */
     public function getAuthor()
     {
