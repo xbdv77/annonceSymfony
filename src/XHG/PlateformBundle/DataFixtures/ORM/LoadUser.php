@@ -2,7 +2,8 @@
 
 namespace XHG\PlateformBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use \Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -12,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author xhg
  */
-class LoadUser implements FixtureInterface, ContainerAwareInterface
+class LoadUser extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface
 {
 
     /**
@@ -30,6 +31,7 @@ class LoadUser implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
+
         // Get our userManager, you must implement `ContainerAwareInterface`
         $userManager = $this->container->get('fos_user.user_manager');
 
@@ -42,8 +44,14 @@ class LoadUser implements FixtureInterface, ContainerAwareInterface
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_ADMIN'));
 
+        $this->addReference('user-1', $user);
         // Update the user
         $userManager->updateUser($user, true);
+    }
+
+    public function getOrder()
+    {
+        return 1;
     }
 
 }

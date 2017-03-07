@@ -3,6 +3,7 @@
 namespace XHG\PlateformBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use XHG\PlateformBundle\Entity\Category;
 
@@ -11,7 +12,7 @@ use XHG\PlateformBundle\Entity\Category;
  *
  * @author xhg
  */
-class LoadCategory implements FixtureInterface
+class LoadCategory implements FixtureInterface, OrderedFixtureInterface
 {
 
     public function load(ObjectManager $manager)
@@ -37,4 +38,8 @@ class LoadCategory implements FixtureInterface
         $manager->flush();
     }
 
+    public function getOrder()
+    {
+        return 3;
+    }
 }

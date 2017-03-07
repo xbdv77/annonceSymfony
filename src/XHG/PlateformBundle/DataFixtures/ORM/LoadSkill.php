@@ -3,6 +3,7 @@
 namespace XHG\PlateformBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use XHG\PlateformBundle\Entity\Skill;
 
@@ -11,7 +12,7 @@ use XHG\PlateformBundle\Entity\Skill;
  *
  * @author xhg
  */
-class LoadSkill implements FixtureInterface
+class LoadSkill implements FixtureInterface, OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -32,4 +33,10 @@ class LoadSkill implements FixtureInterface
         
         $manager->flush();
     }
+    
+    public function getOrder()
+    {
+        return 4;
+    }
+    
 }
