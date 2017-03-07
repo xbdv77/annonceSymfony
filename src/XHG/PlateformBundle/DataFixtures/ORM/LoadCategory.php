@@ -5,6 +5,8 @@ namespace XHG\PlateformBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use XHG\PlateformBundle\Entity\Category;
 
 /**
@@ -12,26 +14,33 @@ use XHG\PlateformBundle\Entity\Category;
  *
  * @author xhg
  */
-class LoadCategory implements FixtureInterface, OrderedFixtureInterface
+class LoadCategory implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
 {
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
 
     public function load(ObjectManager $manager)
     {
-        // Liste des noms de catégorie à ajouter
-        $names = array(
-            'Développement web',
-            'Développement mobile',
-            'Graphisme',
-            'Intégration',
-            'Réseau'
-        );
+        //lecture du fichier csv source        
+        $categories = $this->container->get('xhg_core.csv_to_array')->convert(dirname(__FILE__) . '/Resources/category.csv');
 
-        foreach ($names as $name) {
+        foreach ($categories as $category) {
             // On crée la catégorie
-            $category = new Category();
-            $category->setName($name);
+            $cat = new Category();
+            $cat->setName($category['name']);
             // On la persiste
-            $manager->persist($category);
+            $manager->persist($cat);
         }
 
         // On déclenche l'enregistrement de toutes les catégories
@@ -42,4 +51,5 @@ class LoadCategory implements FixtureInterface, OrderedFixtureInterface
     {
         return 3;
     }
+
 }

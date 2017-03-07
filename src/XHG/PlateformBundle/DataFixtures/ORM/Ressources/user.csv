@@ -1,0 +1,4 @@
+username;email;password;role
+xavier;xhaltebourg;toto;ROLE_ADMIN
+thomas;tom@jojo.com;minou;ROLE_USER
+ninja;aruto@ville.fr;kowabunga;ROLE_USER

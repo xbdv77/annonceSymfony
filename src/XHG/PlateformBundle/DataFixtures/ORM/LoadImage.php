@@ -5,6 +5,8 @@ namespace XHG\PlateformBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use XHG\PlateformBundle\Entity\Image;
 
 /**
@@ -12,24 +14,34 @@ use XHG\PlateformBundle\Entity\Image;
  *
  * @author xhg
  */
-class LoadImage extends AbstractFixture implements OrderedFixtureInterface
+class LoadImage extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
 
     public function load(ObjectManager $manager)
     {
-        $images = array(
-            array('http://fr.freepik.com/photos-libre/femme-souriante-avec-un-cafe-et-un-ordinateur-portable_1039999.htm','femme qui sourie'),
-            array('http://fr.freepik.com/photos-libre/l-39-homme-avec-des-lunettes-et-les-mains-jointes_928676.htm','homme lunette'),
-            array('https://www.petitfute.com/medias/mag/6323/835/4970-france-job-de-reve.jpg','job de reve'),
-        );
+        //lecture du fichier csv source        
+        $images = $this->container->get('xhg_core.csv_to_array')->convert(dirname(__FILE__) . '/Resources/image.csv');
 
-        foreach ($images as $key => $imageToLoad) {
-            $image = new Image();
-            $image->setUrl($imageToLoad[0]);
-            $image->setAlt($imageToLoad[1]);
+        foreach ($images as $key => $image) {
+            $img = new Image();
+            $img->setUrl($image['url']);
+            $img->setAlt($image['alt']);
 
-            $this->addReference("image-$key", $image);
-            $manager->persist($image);
+            $this->addReference("image-$key", $img);
+            $manager->persist($img);
         }
 
         $manager->flush();
@@ -39,4 +51,5 @@ class LoadImage extends AbstractFixture implements OrderedFixtureInterface
     {
         return 2;
     }
+
 }
