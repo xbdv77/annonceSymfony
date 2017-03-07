@@ -17,13 +17,30 @@ class LoadAdvert extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $advert = new Advert();
-        $advert->setTitle('Recherche développeur Symfony.');
-        $advert->setAuthor($this->getReference('user-1'));
-        $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
-        $advert->setImage($this->getReference('image-1'));
-        
-        $manager->persist($advert);
+        $adverts = array(
+            array(
+                'title' => 'Recherche développeur Symfony.',
+                'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…'
+            ),
+            array(
+                'title' => 'Mission de webmaster',
+                'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…'
+            ),
+            array(
+                'title' => 'Offre de stage webdesigner',
+                'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
+            ),
+        );
+
+        foreach ($adverts as $key => $advert) {
+            $ad = new Advert();
+            $ad->setTitle($advert['title']);
+            $ad->setContent($advert['content']);
+            $ad->setAuthor($this->getReference('user-1'));
+            $ad->setImage($this->getReference("image-$key"));
+            
+            $manager->persist($ad);
+        }
         $manager->flush();
     }
 
@@ -31,5 +48,5 @@ class LoadAdvert extends AbstractFixture implements OrderedFixtureInterface
     {
         return 5;
     }
-    
+
 }

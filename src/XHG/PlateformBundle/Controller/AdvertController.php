@@ -19,30 +19,10 @@ class AdvertController extends Controller
 // On déclenche une exception NotFoundHttpException, cela va afficher
 // une page d'erreur 404 (qu'on pourra personnaliser plus tard d'ailleurs)
             throw new NotFoundHttpException('Page "' . $page . '" inexistante.');
-        }
-        $listAdverts = array(
-            array(
-                'title' => 'Recherche développpeur Symfony',
-                'id' => 1,
-                'author' => 'Alexandre',
-                'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…',
-                'date' => new \Datetime()),
-            array(
-                'title' => 'Mission de webmaster',
-                'id' => 2,
-                'author' => 'Hugo',
-                'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
-                'date' => new \Datetime()),
-            array(
-                'title' => 'Offre de stage webdesigner',
-                'id' => 3,
-                'author' => 'Mathieu',
-                'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
-                'date' => new \Datetime())
-        );
+        }        
 
         return $this->render('XHGPlateformBundle:Advert:index.html.twig', array(
-                    'listAdverts' => $listAdverts,
+                    'listAdverts' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->findAll(),
         ));
     }
 
@@ -50,9 +30,10 @@ class AdvertController extends Controller
     {
         $advert = $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->find($id);
         if (null === $advert) {
-            throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
+            //throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
         }
         return $this->render('XHGPlateformBundle:Advert:view.html.twig', array(
+            'test' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->getAdvertWithCategories(array('Graphisme')),
                     'advert' => $advert,
         ));
     }
