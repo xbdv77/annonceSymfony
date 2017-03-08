@@ -10,4 +10,16 @@ namespace XHG\PlateformBundle\Repository;
  */
 class ApplicationRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getApplicationWithAdvert($limit)
+    {
+        $qb = $this->createQueryBuilder('app')
+                ->innerJoin('app.advert', 'adv')
+                ->addSelect('adv')
+                ->orderBy('app.id DESC')
+                ->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

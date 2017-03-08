@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="advert")
  * @ORM\Entity(repositoryClass="XHG\PlateformBundle\Repository\AdvertRepository")
+ * @ORM\hasLifecycleCallbacks()
  */
 class Advert
 {
@@ -69,6 +70,12 @@ class Advert
      */
     private $categories;
     
+    
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updated_at;
+    
     /**
      * @ORM\OneToMany(targetEntity="XHG\PlateformBundle\Entity\Application", mappedBy="advert")
      */
@@ -78,6 +85,14 @@ class Advert
     {
         $this->date = new \DateTime();
         $this->categories = new ArrayCollection();
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $this->setUpdatedAt(new \DateTime());
     }
     
     /**
@@ -302,5 +317,29 @@ class Advert
     public function getApplications()
     {
         return $this->applications;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Advert
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updated_at = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
     }
 }

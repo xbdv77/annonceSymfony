@@ -69,6 +69,12 @@ class Advert
      */
     private $categories;
     
+    
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updated_at;
+    
     /**
      * @ORM\OneToMany(targetEntity="XHG\PlateformBundle\Entity\Application", mappedBy="advert")
      */
@@ -267,5 +273,40 @@ class Advert
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Add application
+     *
+     * @param \XHG\PlateformBundle\Entity\Application $application
+     *
+     * @return Advert
+     */
+    public function addApplication(\XHG\PlateformBundle\Entity\Application $application)
+    {
+        $this->applications[] = $application;
+
+        $application->setAdvert($this);
+        return $this;
+    }
+
+    /**
+     * Remove application
+     *
+     * @param \XHG\PlateformBundle\Entity\Application $application
+     */
+    public function removeApplication(\XHG\PlateformBundle\Entity\Application $application)
+    {
+        $this->applications->removeElement($application);
+    }
+
+    /**
+     * Get applications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }

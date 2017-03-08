@@ -19,7 +19,7 @@ class AdvertController extends Controller
 // On déclenche une exception NotFoundHttpException, cela va afficher
 // une page d'erreur 404 (qu'on pourra personnaliser plus tard d'ailleurs)
             throw new NotFoundHttpException('Page "' . $page . '" inexistante.');
-        }        
+        }
 
         return $this->render('XHGPlateformBundle:Advert:index.html.twig', array(
                     'listAdverts' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->findAll(),
@@ -29,12 +29,16 @@ class AdvertController extends Controller
     public function viewAction($id)
     {
         $advert = $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->find($id);
+
+        
         if (null === $advert) {
-            //throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
+            throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
         }
+
         return $this->render('XHGPlateformBundle:Advert:view.html.twig', array(
-            'test' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->getAdvertWithCategories(array('Graphisme')),
                     'advert' => $advert,
+                    'listApplication' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Application')->findByAdvert($advert),
+            'toto' => $values = $this->container->get('xhg_core.csv_to_array')->convert('C:\var\www\symfony\src\XHG\PlateformBundle\DataFixtures\ORM\Ressources/advert.csv')
         ));
     }
 
@@ -117,7 +121,7 @@ class AdvertController extends Controller
         foreach ($advert->getCategories() as $category) {
             $advert->removeCategory($category);
         }
-        
+
         $em->detach($advert);
         $em->flush();
         $this->addFlash('notice', 'l\'annonce a bien été supprimé');
