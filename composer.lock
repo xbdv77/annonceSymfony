@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "63d029b9841b5fe19a81f5d09b01f773",
+    "content-hash": "c321fe9ed521d55a662983d508850823",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2168,6 +2168,40 @@
                 "templating"
             ],
             "time": "2017-01-11T19:39:01+00:00"
+        },
+        {
+            "name": "xbdv/tools",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xbdv77/tools.git",
+                "reference": "1556b3355b99a1c340f05d7ca6aa6e5c70231db7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xbdv77/tools/zipball/1556b3355b99a1c340f05d7ca6aa6e5c70231db7",
+                "reference": "1556b3355b99a1c340f05d7ca6aa6e5c70231db7",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "^1.22",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Xbdv": "src/"
+                }
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "tools for trace and debug",
+            "support": {
+                "source": "https://github.com/xbdv77/tools/tree/1.0.0",
+                "issues": "https://github.com/xbdv77/tools/issues"
+            },
+            "time": "2017-03-08T15:49:31+00:00"
         }
     ],
     "packages-dev": [

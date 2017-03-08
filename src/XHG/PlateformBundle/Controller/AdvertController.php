@@ -38,7 +38,6 @@ class AdvertController extends Controller
         return $this->render('XHGPlateformBundle:Advert:view.html.twig', array(
                     'advert' => $advert,
                     'listApplication' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Application')->findByAdvert($advert),
-            'toto' => $values = $this->container->get('xhg_core.csv_to_array')->convert('C:\var\www\symfony\src\XHG\PlateformBundle\DataFixtures\ORM\Ressources/advert.csv')
         ));
     }
 
