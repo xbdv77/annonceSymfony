@@ -1,5 +1,4 @@
 nbproject/
-composer.lock
 /app/config/parameters.yml
 /build/
 /phpunit.xml

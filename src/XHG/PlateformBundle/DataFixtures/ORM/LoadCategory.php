@@ -2,7 +2,7 @@
 
 namespace XHG\PlateformBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -14,7 +14,7 @@ use XHG\PlateformBundle\Entity\Category;
  *
  * @author xhg
  */
-class LoadCategory implements FixtureInterface, OrderedFixtureInterface, ContainerAwareInterface
+class LoadCategory extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
 
     /**
@@ -35,11 +35,12 @@ class LoadCategory implements FixtureInterface, OrderedFixtureInterface, Contain
         //lecture du fichier csv source        
         $categories = $this->container->get('xhg_core.csv_to_array')->convert(dirname(__FILE__) . '/Resources/category.csv');
 
-        foreach ($categories as $category) {
+        foreach ($categories as $key => $category) {
             // On crée la catégorie
             $cat = new Category();
             $cat->setName($category['name']);
             // On la persiste
+            $this->addReference('category-' . $key, $cat);
             $manager->persist($cat);
         }
 

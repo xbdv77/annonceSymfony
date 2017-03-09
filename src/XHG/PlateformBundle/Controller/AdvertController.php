@@ -144,7 +144,7 @@ class AdvertController extends Controller
         return $this->render('XHGPlateformBundle:Advert:menu.html.twig', array(
                     // Tout l'intérêt est ici : le contrôleur passe
                     // les variables nécessaires au template !
-                    'listAdverts' => array_slice($listAdverts, 0, $limit),
+                    'listAdverts' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->getLastAdvert($limit),
         ));
     }
 

@@ -15,9 +15,18 @@ class AdvertRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('a')
                 ->innerJoin('a.categories', 'cat')
-                ->addSelect('cat');
-        $qb->where($qb->expr()->in('cat.name', $categories));
+                ->addSelect('cat')
+                ->where($qb->expr()->in('cat.name', $categories));
 
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getLastAdvert($max = 1)
+    {
+        $qb = $this->createQueryBuilder('a')
+                ->orderBy('a.date','DESC')
+                ->setMaxResults($max);
+        
         return $qb->getQuery()->getResult();
     }
 

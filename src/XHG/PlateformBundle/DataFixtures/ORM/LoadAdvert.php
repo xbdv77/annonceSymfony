@@ -41,7 +41,10 @@ class LoadAdvert extends AbstractFixture implements OrderedFixtureInterface, Con
             $ad->setContent($advert['content']);
             $ad->setAuthor($this->getReference('user-' . $advert['author']));
             $ad->setImage($this->getReference('image-' . $advert['image']));
-
+            foreach(\explode('-', $advert['category']) as $cat) {
+                $ad->addCategory($this->getReference('category-' . $cat));
+            }            
+            
             $this->addReference('advert-' . $key, $ad);
             
             $manager->persist($ad);
