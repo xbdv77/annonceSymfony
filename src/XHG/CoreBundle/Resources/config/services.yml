@@ -1,3 +1,8 @@
 services:
     xhg_core.csv_to_array:
         class: XHG\CoreBundle\Services\ConvertCsvToArray
+    
+    xhg_core.mailer:
+        class: XHG\CoreBundle\Services\Mailer
+        arguments:
+            - "@mailer"

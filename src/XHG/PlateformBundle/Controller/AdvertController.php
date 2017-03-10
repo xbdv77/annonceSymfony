@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use XHG\PlateformBundle\Entity\Advert;
 use XHG\PlateformBundle\Entity\Image;
+use XHG\PlateformBundle\Entity\Application;
 
 class AdvertController extends Controller
 {
@@ -30,11 +31,10 @@ class AdvertController extends Controller
     {
         $advert = $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->find($id);
 
-        
         if (null === $advert) {
             throw new NotFoundHttpException("L'annonce d'id " . $id . " n'existe pas.");
         }
-
+        
         return $this->render('XHGPlateformBundle:Advert:view.html.twig', array(
                     'advert' => $advert,
                     'listApplication' => $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Application')->findByAdvert($advert),
@@ -57,11 +57,12 @@ class AdvertController extends Controller
 
         // On récupère l'EntityManager
         $em = $this->getDoctrine()->getManager();
-        $user = $em->find('\XHG\CoreBundle\Entity\User', 1);
+        $user = $em->getRepository('\XHG\CoreBundle\Entity\User')->findOneByUsername("xavier");
 // Création de l'entité Advert
         $advert = new Advert();
         $advert->setTitle('Recherche développeur Symfony.');
         $advert->setAuthor($user);
+        $advert->setEmail(('xhaltebourg@umanis.com'));
         $advert->setContent("Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…");
 
         // Création de l'entité Image
@@ -76,6 +77,12 @@ class AdvertController extends Controller
         // Étape 1 bis : si on n'avait pas défini le cascade={"persist"},
         // on devrait persister à la main l'entité $image
         $em->persist($image);
+        
+        $application = new Application();
+        $application->setAuthor($user);
+        $application->setContent('il est content monsieur durand');
+        $application->setAdvert($advert);
+        $em->persist($application);
         // Étape 2 : On déclenche l'enregistrement
         $em->flush();
 // Si on n'est pas en POST, alors on affiche le formulaire

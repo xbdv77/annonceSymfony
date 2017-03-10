@@ -10,9 +10,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="advert")
  * @ORM\Entity(repositoryClass="XHG\PlateformBundle\Repository\AdvertRepository")
+ * @ORM\hasLifecycleCallbacks()
  */
 class Advert
 {
+
     /**
      * @var int
      *
@@ -50,7 +52,7 @@ class Advert
      * @ORM\Column(name="content", type="text")
      */
     private $content;
-    
+
     /**
      * @var string
      *
@@ -59,33 +61,52 @@ class Advert
     private $published = true;
 
     /**
+     * @var string
+     * 
+     * @ORM\Column(name="email", type="string")
+     */
+    private $email;
+    
+    /**
      *
      * @ORM\OneToOne(targetEntity="Image")
      */
     private $image;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="XHG\PlateformBundle\Entity\Category", cascade={"persist"})
      */
     private $categories;
-    
-    
+
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updated_at;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="XHG\PlateformBundle\Entity\Application", mappedBy="advert")
      */
     private $applications;
-    
+
+    /**
+     * @ORM\Column(name="nb_application", type="integer")
+     */
+    private $nbApplications = 0;
+
     public function __construct()
     {
         $this->date = new \DateTime();
         $this->categories = new ArrayCollection();
     }
-    
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $this->setUpdatedAt(new \DateTime());
+    }
+
     /**
      * Get id
      *
@@ -95,7 +116,6 @@ class Advert
     {
         return $this->id;
     }
-
 
     /**
      * Set date
@@ -309,4 +329,39 @@ class Advert
     {
         return $this->applications;
     }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Advert
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updated_at = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    public function increaseApplication()
+    {
+        $this->nbApplications++;
+    }
+
+    public function decreaseApplication()
+    {
+        $this->nbApplications--;
+    }
+
 }

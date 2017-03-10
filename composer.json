@@ -39,7 +39,8 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "xbdv/tools": "^1.0"
+        "xbdv/tools": "^1.0",
+        "stof/doctrine-extensions-bundle": "^1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

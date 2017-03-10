@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Advert
 {
+
     /**
      * @var int
      *
@@ -40,7 +41,7 @@ class Advert
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="XHG\CoreBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="XHG\CoreBundle\Entity\User", inversedBy="adverts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
@@ -51,7 +52,7 @@ class Advert
      * @ORM\Column(name="content", type="text")
      */
     private $content;
-    
+
     /**
      * @var string
      *
@@ -60,33 +61,44 @@ class Advert
     private $published = true;
 
     /**
+     * @var string
+     * 
+     * @ORM\Column(name="email", type="string")
+     */
+    private $email;
+
+    /**
      *
      * @ORM\OneToOne(targetEntity="Image")
      */
     private $image;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="XHG\PlateformBundle\Entity\Category", cascade={"persist"})
      */
     private $categories;
-    
-    
+
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updated_at;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="XHG\PlateformBundle\Entity\Application", mappedBy="advert")
      */
     private $applications;
-    
+
+    /**
+     * @ORM\Column(name="nb_application", type="integer")
+     */
+    private $nbApplications = 0;
+
     public function __construct()
     {
         $this->date = new \DateTime();
         $this->categories = new ArrayCollection();
     }
-    
+
     /**
      * @ORM\PreUpdate
      */
@@ -94,7 +106,7 @@ class Advert
     {
         $this->setUpdatedAt(new \DateTime());
     }
-    
+
     /**
      * Get id
      *
@@ -104,7 +116,6 @@ class Advert
     {
         return $this->id;
     }
-
 
     /**
      * Set date
@@ -342,4 +353,63 @@ class Advert
     {
         return $this->updated_at;
     }
+
+    public function increaseApplication()
+    {
+        $this->nbApplications++;
+    }
+
+    public function decreaseApplication()
+    {
+        $this->nbApplications--;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Advert
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set nbApplications
+     *
+     * @param integer $nbApplications
+     *
+     * @return Advert
+     */
+    public function setNbApplications($nbApplications)
+    {
+        $this->nbApplications = $nbApplications;
+
+        return $this;
+    }
+
+    /**
+     * Get nbApplications
+     *
+     * @return integer
+     */
+    public function getNbApplications()
+    {
+        return $this->nbApplications;
+    }
+
 }
