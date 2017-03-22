@@ -1,6 +1,6 @@
 <?php
 
-namespace XHG\PlateformBundle\DoctrineListener;
+namespace XHG\PlateformBundle\Services\DoctrineListener;
 
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use XHG\CoreBundle\Services\Mailer;

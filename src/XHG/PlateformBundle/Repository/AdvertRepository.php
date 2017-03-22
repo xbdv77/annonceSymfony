@@ -18,8 +18,8 @@ class AdvertRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('a')
                 ->innerJoin('a.categories', 'cat')
-                ->addSelect('cat')
-                ->where($qb->expr()->in('cat.name', $categories));
+                ->addSelect('cat');
+        $qb->where($qb->expr()->in('cat.name', $categories));
 
         return $qb->getQuery()->getResult();
     }
@@ -44,7 +44,7 @@ class AdvertRepository extends EntityRepository
                 ->getQuery();
 
         return $qb->getResult();
-        
+
         $this->findBy($criteria, $orderBy, $limit, $offset);
     }
 
@@ -64,6 +64,20 @@ class AdvertRepository extends EntityRepository
                 ->setMaxResults($nbPerPage);
 
         return new Paginator($query, true);
+    }
+
+    public function getAdvertsBefore(\Datetime $date)
+    {
+        return $this->createQueryBuilder('a')
+                        ->leftJoin('a.image', 'i')
+                        ->addSelect('i')
+                        ->where('a.updated_at <= :date')
+                        ->orWhere('a.updated_at IS NULL AND a.date <= :date')
+                        ->andWhere('a.applications IS EMPTY')
+                        ->setParameter('date', $date)
+                        ->getQuery()
+                        ->getResult()
+        ;
     }
 
 }

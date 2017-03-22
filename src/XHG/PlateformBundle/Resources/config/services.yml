@@ -1,13 +1,18 @@
 services:
     xhg_plateform.antispam:
-        class: XHG\PlateformBundle\Antispam\XHGAntispam
+        class: XHG\PlateformBundle\Services\Antispam\XHGAntispam
         arguments:
             - "@mailer"
             - "%locale%"
             - 50
     xhg_plateform.doctrine_listener.entity_creation:
-        class: XHG\PlateformBundle\DoctrineListener\EntityCreationListener
+        class: XHG\PlateformBundle\Services\DoctrineListener\EntityCreationListener
         arguments:
             - "@xhg_core.mailer"
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+    xhg_plateform.purger.advert:
+        class: XHG\PlateformBundle\Services\Purger\XHGAdvertPurger
+        arguments: 
+            - "@doctrine.orm.entity_manager"
+            - 45

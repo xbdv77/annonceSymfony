@@ -18,7 +18,7 @@ class AdvertController extends Controller
             throw new NotFoundHttpException('Page "' . $page . '" inexistante.');
         }
 
-        $nbPerPage = 1;
+        $nbPerPage = 3;
         $listAdverts = $this->getDoctrine()->getManager()->getRepository('XHGPlateformBundle:Advert')->getAdverts($page, $nbPerPage);
         $nbPage = ceil(count($listAdverts) / $nbPerPage);
 
@@ -110,6 +110,14 @@ class AdvertController extends Controller
                             ->getRepository('XHGPlateformBundle:Advert')
                             ->getLastAdvert($limit),
         ));
+    }
+
+    public function purgeAction($days, Request $request)
+    {
+        foreach ($this->get('xhg_plateform.purger.advert')->purge($days) as $msg) {
+            $request->getSession()->getFlashBag()->add('notice', $msg);
+        }
+        return $this->redirectToRoute('xhg_plateform_home');
     }
 
 }

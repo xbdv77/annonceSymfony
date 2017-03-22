@@ -1,6 +1,6 @@
 <?php
 
-namespace XHG\PlateformBundle\Antispam;
+namespace XHG\PlateformBundle\Services\Antispam;
 
 /**
  * Description of Antispam

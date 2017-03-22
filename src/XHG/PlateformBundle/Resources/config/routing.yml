@@ -31,3 +31,11 @@ xhg_plateform_delete:
         _controller: XHGPlateformBundle:Advert:delete
     requirements:
         id: \d+
+        
+test_purge:
+    path:   /purge/{days}
+    defaults:
+        _controller: XHGPlateformBundle:Advert:purge
+        days: null
+    requirements:
+        days: \d+
