@@ -62,13 +62,6 @@ class Advert
     private $published = true;
 
     /**
-     * @var string
-     * 
-     * @ORM\Column(name="email", type="string")
-     */
-    private $email;
-
-    /**
      *
      * @ORM\OneToOne(targetEntity="Image")
      */
@@ -369,30 +362,6 @@ class Advert
     public function decreaseApplication()
     {
         $this->nbApplications--;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Advert
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
     }
 
     /**

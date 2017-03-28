@@ -6,8 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use XHG\PlateformBundle\Entity\Advert;
-use XHG\PlateformBundle\Entity\Image;
-use XHG\PlateformBundle\Entity\Application;
+use XHG\PlateformBundle\Form\AdvertType;
 
 class AdvertController extends Controller
 {
@@ -46,16 +45,27 @@ class AdvertController extends Controller
 
     public function addAction(Request $request)
     {
+        $advert = new Advert();
+        $form = $this->get('form.factory')->create(AdvertType::class,$advert);
+        
         // recupération du service antispam
         $antispam = $this->get('xhg_plateform.antispam');
 
         if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $advert->setAuthor($user = $em->getRepository('XHGCoreBundle:User')->findOneby(array('username' => 'xavier')));
+                $em->persist($advert);
+                $em->flush();
+            }
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-            return $this->redirectToRoute('xhg_plateform_view', array('id' => 5));
+            return $this->redirectToRoute('xhg_plateform_view', array('id' => $advert->getId()));
         }
-
+        
         return $this->render('XHGPlateformBundle:Advert:add.html.twig', array(
                     'antispam' => $antispam,
+                    'form' => $form->createView(),
         ));
     }
 
@@ -93,7 +103,7 @@ class AdvertController extends Controller
             $advert->removeCategory($category);
         }
 
-        $em->detach($advert);
+        $em->remove($advert);
         $em->flush();
         $this->addFlash('notice', 'l\'annonce a bien été supprimé');
 

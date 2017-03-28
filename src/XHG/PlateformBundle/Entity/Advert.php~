@@ -62,13 +62,6 @@ class Advert
     private $published = true;
 
     /**
-     * @var string
-     * 
-     * @ORM\Column(name="email", type="string")
-     */
-    private $email;
-
-    /**
      *
      * @ORM\OneToOne(targetEntity="Image")
      */
@@ -372,30 +365,6 @@ class Advert
     }
 
     /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Advert
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
      * Set nbApplications
      *
      * @param integer $nbApplications
@@ -419,4 +388,28 @@ class Advert
         return $this->nbApplications;
     }
 
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Advert
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 }

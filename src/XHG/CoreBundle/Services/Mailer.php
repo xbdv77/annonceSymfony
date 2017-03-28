@@ -30,7 +30,7 @@ class Mailer
                 'L\'annonce "' . $advert->getTitle() . '" vient d\'être créée'
         );
         $message
-                ->addTo($advert->getEmail())
+                ->addTo($advert->getAuthor()->getEmail())
                 ->addFrom('admin@plateform.com');
         $this->mailer->send($message);
     }
@@ -42,7 +42,7 @@ class Mailer
                 'Une candidature vient d\'être déposé pour l\'annonce "' . $application->getAdvert()->getTitle()
         );
         $message
-                ->addTo($application->getAdvert()->getEmail())
+                ->addTo($application->getAdvert()->getAuthor()->getEmail())
                 ->addFrom('admin@plateform.com');
         $this->mailer->send($message);
     }
